@@ -414,7 +414,12 @@ open class AppRatingManager : NSObject {
                     }
                     alertView.addAction(UIAlertAction(title: self.defaultRateButtonTitle(), style:UIAlertAction.Style.default, handler: {
                         (alert: UIAlertAction!) in
-                        self._rateApp();
+                        if #available(iOS 10.3, *) {
+                            SKStoreReviewController.requestReview();
+                            self.remindMeLater();
+                        } else {
+                            self._rateApp();
+                        }
                         self.hideRatingAlert();
                     }))
                     
